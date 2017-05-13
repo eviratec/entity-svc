@@ -3,18 +3,16 @@ info:
   version: "1.0.0"
   title: "3XQT Entity API"
 paths:
-  /U/{UserID}/{EntityClassName}/List:
+  '/U/{UserID}/{EntityClassName}/List':
     parameters:
       - name: UserID
         in: path
-        type: string
+        type: number
         required: true
-        description: The name of the user to greet.
       - name: EntityClassName
         in: path
         type: string
         required: true
-        description: The name of the user to greet.
     get:
       tags:
         - Lists
@@ -99,13 +97,14 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Entity'
-  /U/{UserID}/Type/List:
+        404:
+          description: Not Found
+  '/U/{UserID}/Type/List':
     parameters:
       - name: UserID
         in: path
-        type: string
+        type: number
         required: true
-        description: The name of the user to greet.
     get:
       tags:
         - Lists
@@ -232,30 +231,12 @@ paths:
             type: array
             items:
               $ref: '#/definitions/EntityType'
-  /U/{UserID}/{EntityClassName}:
+  '/U/{UserID}/Types':
     parameters:
       - name: UserID
         in: path
-        type: string
+        type: number
         required: true
-        description: The name of the user to greet.
-      - name: EntityClassName
-        in: path
-        type: string
-        required: true
-        description: The name of the user to greet.
-    get:
-      tags:
-        - Entity Types
-      summary: Fetch an Entity Type
-      description: Returns a greeting to the user!
-      responses:
-        200:
-          description: Returns the greeting.
-          schema:
-            type: string
-        400:
-          description: Invalid characters in "user" were provided.
     post:
       tags:
         - Entity Types
@@ -268,11 +249,58 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-  /U/{UserID}/{EntityClassName}/A/{AttributeKey}:
+  '/U/{UserID}/T/{EntityClassName}':
     parameters:
       - name: UserID
         in: path
+        type: number
+        required: true
+      - name: EntityClassName
+        in: path
         type: string
+        required: true
+        description: The ClassName of the Entity Type, e.g. `TaxInvoice`
+    get:
+      tags:
+        - Entity Types
+      summary: Fetch an Entity Type
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+  '/U/{UserID}/{EntityClassName}/Attributes':
+    parameters:
+      - name: UserID
+        in: path
+        type: number
+        required: true
+        description: The name of the user to greet.
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    post:
+      tags:
+        - Entity Type Attributes
+      summary: Create a new Entity Type Attribute
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+  '/U/{UserID}/{EntityClassName}/A/{AttributeKey}':
+    parameters:
+      - name: UserID
+        in: path
+        type: number
         required: true
         description: The name of the user to greet.
       - name: EntityClassName
@@ -297,21 +325,10 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-    post:
-      tags:
-        - Entity Type Attributes
-      summary: Create a new Entity Type Attribute
-      description: Returns a greeting to the user!
-      responses:
-        200:
-          description: Returns the greeting.
-          schema:
-            type: string
-        400:
-          description: Invalid characters in "user" were provided.
     put:
       tags:
         - Entity Type Attributes
+      summary: Replace the Entity Type Attribute
       description: Returns a greeting to the user!
       responses:
         200:
@@ -320,11 +337,11 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-  /U/{UserID}/{EntityClassName}/E/{EntityID}:
+  '/U/{UserID}/{EntityClassName}/Entities':
     parameters:
       - name: UserID
         in: path
-        type: string
+        type: number
         required: true
         description: The name of the user to greet.
       - name: EntityClassName
@@ -332,14 +349,10 @@ paths:
         type: string
         required: true
         description: The name of the user to greet.
-      - name: EntityID
-        in: path
-        type: string
-        required: true
-        description: The name of the user to greet.
-    get:
+    post:
       tags:
         - Entities
+      summary: Create a new Entity
       description: Returns a greeting to the user!
       responses:
         200:
@@ -348,9 +361,24 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-    post:
+  '/U/{UserID}/{EntityClassName}/E/{EntityID}':
+    parameters:
+      - name: UserID
+        in: path
+        type: number
+        required: true
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+      - name: EntityID
+        in: path
+        type: number
+        required: true
+    get:
       tags:
         - Entities
+      summary: Fetch an Entity and it's Attributes by EntityID
       description: Returns a greeting to the user!
       responses:
         200:
@@ -362,37 +390,35 @@ paths:
     delete:
       tags:
         - Entities
+      summary: Delete an Entity by EntityID
       description: Returns a greeting to the user!
       responses:
         202:
           description: Accepted
         400:
           description: Invalid characters in "user" were provided.
-  /U/{UserID}/{EntityClassName}/E/{EntityID}/A/{AttributeKey}:
+  '/U/{UserID}/{EntityClassName}/E/{EntityID}/A/{AttributeKey}':
     parameters:
       - name: UserID
         in: path
-        type: string
+        type: number
         required: true
-        description: The name of the user to greet.
       - name: EntityClassName
         in: path
         type: string
         required: true
-        description: The name of the user to greet.
       - name: EntityID
         in: path
-        type: string
+        type: number
         required: true
-        description: The name of the user to greet.
       - name: AttributeKey
         in: path
         type: string
         required: true
-        description: The name of the user to greet.
     get:
       tags:
         - Entity Attributes
+      summary: Fetch an Entity Attribute
       description: Returns a greeting to the user!
       responses:
         200:
@@ -404,6 +430,7 @@ paths:
     put:
       tags:
         - Entity Attributes
+      summary: Update the Value for an Attribute on an Entity
       description: Returns a greeting to the user!
       responses:
         200:
@@ -415,6 +442,7 @@ paths:
     delete:
       tags:
         - Entity Attributes
+      summary: Delete a the current value for an Entity Attribute using it's AttributeKey
       description: Returns a greeting to the user!
       responses:
         202:
