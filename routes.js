@@ -19,6 +19,11 @@ const db = require('./src/apps');
 
 module.exports = function (app) {
 
+  const USER_ID_PREFIX = 'U';
+  const ENTITY_ID_PREFIX = 'E';
+  const ENTITY_CLASS_PREFIX = 'T';
+  const ATTR_KEY_PREFIX = 'A';
+
   const USER_CLASS_NAME = 'User';
   const LIST_CLASS_NAME = 'List';
   const USER_ID = ':UserID';
@@ -30,50 +35,58 @@ module.exports = function (app) {
   const URI = {
 
     /**
-     * #/User/:UserID
+     * #/U/:UserID
      */
      USER: apiUri([
-      USER_CLASS_NAME,
+      USER_ID_PREFIX,
       USER_ID,
     ]),
 
     /**
-     * #/User/:UserID/:EntityClassName
+     * #/U/:UserID/T/:EntityClassName
      */
      TYPE: apiUri([
-      USER_CLASS_NAME,
+      USER_ID_PREFIX,
       USER_ID,
+      ENTITY_CLASS_PREFIX,
       ENTITY_CLASS_NAME,
     ]),
 
     /**
-     * #/User/:UserID/:EntityClassName/:AttributeKey
+     * #/U/:UserID/T/:EntityClassName/A/:AttributeKey
      */
      TYPE_ATTR: apiUri([
-      USER_CLASS_NAME,
+      USER_ID_PREFIX,
       USER_ID,
+      ENTITY_CLASS_PREFIX,
       ENTITY_CLASS_NAME,
+      ATTR_KEY_PREFIX,
       ATTRIBUTE_KEY,
     ]),
 
     /**
-     * #/User/:UserID/:EntityClassName/:EntityID
+     * #/U/:UserID/T/:EntityClassName/E/:EntityID
      */
      ENTITY: apiUri([
-      USER_CLASS_NAME,
+      USER_ID_PREFIX,
       USER_ID,
+      ENTITY_CLASS_PREFIX,
       ENTITY_CLASS_NAME,
+      ENTITY_ID_PREFIX,
       ENTITY_ID,
     ]),
 
     /**
-     * #/User/:UserID/:EntityClassName/:EntityID/:AttributeKey
+     * #/U/:UserID/T/:EntityClassName/E/:EntityID/A/:AttributeKey
      */
      ENTITY_ATTR: apiUri([
-      USER_CLASS_NAME,
+      USER_ID_PREFIX,
       USER_ID,
+      ENTITY_CLASS_PREFIX,
       ENTITY_CLASS_NAME,
+      ENTITY_ID_PREFIX,
       ENTITY_ID,
+      ATTR_KEY_PREFIX,
       ATTRIBUTE_KEY,
     ]),
 
