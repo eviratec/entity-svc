@@ -2,6 +2,8 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: "3XQT Entity API"
+  description: |
+    [eviratec.com.au](https://www.eviratec.com.au) / [3xqt.co](http://www.3xqt.co)
 paths:
   '/U/{UserID}/{EntityClassName}/List':
     parameters:
@@ -241,7 +243,6 @@ paths:
       tags:
         - Entity Types
       summary: Create a new Entity Type
-      description: Returns a greeting to the user!
       responses:
         200:
           description: Returns the greeting.
@@ -264,7 +265,60 @@ paths:
       tags:
         - Entity Types
       summary: Fetch an Entity Type
-      description: Returns a greeting to the user!
+      description: |
+        ## Example Request
+        ```
+        GET /U/15291382/T/DomainName
+        Accept: application/json
+        Authorization: co.3xqt.authz/v1/15291382/530758b30c1034b6e7d613eb8bc970d3fee41495ab87e44436634bf328fd81a9
+        ```
+
+        ## Example Response
+        ```json
+        {
+          "ID": 1878802,
+          "UserID": 1,
+          "ParentID": null,
+          "ClassName": "DomainName",
+          "Slug": "domain-name",
+          "Label": "Domain Name",
+          "Created": "2017-05-12T21:38:09.000Z",
+          "Modified": "2017-05-12T21:38:09.000Z",
+          "Deleted": null,
+          "Attributes": [
+            {
+              "TypeID": 1878802,
+              "AttributeKey": "TLD",
+              "Label": "TLD",
+              "Required": 1,
+              "DefaultValue": "com",
+              "Created": "2017-05-12T22:30:01.000Z",
+              "Modified": "2017-05-12T22:30:01.000Z",
+              "Deleted": null
+            },
+            {
+              "TypeID": 1878802,
+              "AttributeKey": "FQDN",
+              "Label": "FQDN",
+              "Required": 1,
+              "DefaultValue": "example.com",
+              "Created": "2017-05-12T22:30:01.000Z",
+              "Modified": "2017-05-12T22:30:01.000Z",
+              "Deleted": null
+            },
+            {
+              "TypeID": 1878802,
+              "AttributeKey": "Registrar",
+              "Label": "Registrar",
+              "Required": 1,
+              "DefaultValue": null,
+              "Created": "2017-05-12T22:30:01.000Z",
+              "Modified": "2017-05-12T22:30:01.000Z",
+              "Deleted": null
+            }
+          ]
+        }
+        ```
       responses:
         200:
           description: Returns the greeting.
@@ -272,7 +326,7 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-  '/U/{UserID}/{EntityClassName}/Attributes':
+  '/U/{UserID}/T/{EntityClassName}/Attributes':
     parameters:
       - name: UserID
         in: path
@@ -296,23 +350,20 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-  '/U/{UserID}/{EntityClassName}/A/{AttributeKey}':
+  '/U/{UserID}/T/{EntityClassName}/A/{AttributeKey}':
     parameters:
       - name: UserID
         in: path
         type: number
         required: true
-        description: The name of the user to greet.
       - name: EntityClassName
         in: path
         type: string
         required: true
-        description: The name of the user to greet.
       - name: AttributeKey
         in: path
         type: string
         required: true
-        description: The name of the user to greet.
     get:
       tags:
         - Entity Type Attributes
@@ -329,7 +380,16 @@ paths:
       tags:
         - Entity Type Attributes
       summary: Replace the Entity Type Attribute
-      description: Returns a greeting to the user!
+      description: |
+        ## Example Request
+        ```
+        PUT /U/15291382/T/DomainName/A/FQDN
+        Content-Type: text/plain;charset=utf8
+        Content-Length: 8
+        Authorization: co.3xqt.authz/v1/15291382/d6186042835c798aba91f59e1158760066c6722e85a13899c06657d5889811ba
+
+        meow.com
+        ```
       responses:
         200:
           description: Returns the greeting.
@@ -337,7 +397,7 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-  '/U/{UserID}/{EntityClassName}/Entities':
+  '/U/{UserID}/T/{EntityClassName}/Entities':
     parameters:
       - name: UserID
         in: path
@@ -361,7 +421,7 @@ paths:
             type: string
         400:
           description: Invalid characters in "user" were provided.
-  '/U/{UserID}/{EntityClassName}/E/{EntityID}':
+  '/U/{UserID}/T/{EntityClassName}/E/{EntityID}':
     parameters:
       - name: UserID
         in: path
@@ -397,7 +457,7 @@ paths:
           description: Accepted
         400:
           description: Invalid characters in "user" were provided.
-  '/U/{UserID}/{EntityClassName}/E/{EntityID}/A/{AttributeKey}':
+  '/U/{UserID}/T/{EntityClassName}/E/{EntityID}/A/{AttributeKey}':
     parameters:
       - name: UserID
         in: path
