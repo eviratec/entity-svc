@@ -1,6 +1,6 @@
-# Eviratec App Service
+# Eviratec Entity Service
 
-This repository contains the source for the Eviratec App (micro)service.
+This repository contains the source for the Eviratec Entity (micro)service.
 
 ## Requirements
 

@@ -1,0 +1,525 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "3XQT Entity API"
+paths:
+  /U/{UserID}/{EntityClassName}/List:
+    parameters:
+      - name: UserID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    get:
+      tags:
+        - Lists
+      summary: Fetch a list of Entities
+      description: |
+        ## Example Response
+
+        ```javascript
+        [
+          {
+            "ID": 1118889,
+            "TypeID": 1878802,
+            "UserID": 1,
+            "Created": "2017-05-12T22:30:37.000Z",
+            "Deleted": null,
+            "Attributes": [
+              {
+                "EntityID": 1118889,
+                "AttributeKey": "TLD",
+                "AttributeValue": "co",
+                "Created": "2017-05-12T22:32:02.000Z",
+                "Modified": "2017-05-12T22:32:02.000Z",
+                "Deleted": null
+              },
+              {
+                "EntityID": 1118889,
+                "AttributeKey": "FQDN",
+                "AttributeValue": "3xqt.co",
+                "Created": "2017-05-12T22:32:02.000Z",
+                "Modified": "2017-05-12T22:32:02.000Z",
+                "Deleted": null
+              },
+              {
+                "EntityID": 1118889,
+                "AttributeKey": "Registrar",
+                "AttributeValue": "MARCARIA",
+                "Created": "2017-05-12T22:32:02.000Z",
+                "Modified": "2017-05-12T22:32:02.000Z",
+                "Deleted": null
+              }
+            ]
+          },
+          {
+            "ID": 1118890,
+            "TypeID": 1878802,
+            "UserID": 1,
+            "Created": "2017-05-12T22:30:37.000Z",
+            "Deleted": null,
+            "Attributes": [
+              {
+                "EntityID": 1118890,
+                "AttributeKey": "TLD",
+                "AttributeValue": "sexy",
+                "Created": "2017-05-12T22:32:02.000Z",
+                "Modified": "2017-05-12T22:32:02.000Z",
+                "Deleted": null
+              },
+              {
+                "EntityID": 1118890,
+                "AttributeKey": "FQDN",
+                "AttributeValue": "awesomely.sexy",
+                "Created": "2017-05-12T22:32:02.000Z",
+                "Modified": "2017-05-12T22:32:02.000Z",
+                "Deleted": null
+              },
+              {
+                "EntityID": 1118890,
+                "AttributeKey": "Registrar",
+                "AttributeValue": "MARCARIA",
+                "Created": "2017-05-12T22:32:02.000Z",
+                "Modified": "2017-05-12T22:32:02.000Z",
+                "Deleted": null
+              }
+            ]
+          }
+        ]
+          ```
+      responses:
+        200:
+          description: Returns a list of Entities
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Entity'
+  /U/{UserID}/Type/List:
+    parameters:
+      - name: UserID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    get:
+      tags:
+        - Lists
+      summary: Fetch a list of Entity Types
+      description: |
+        ## Example Response
+
+        ```javascript
+        [
+            {
+              "ID": 1878799,
+              "UserID": 1,
+              "ParentID": null,
+              "ClassName": "TaxInvoice",
+              "Slug": "tax-invoice",
+              "Label": "Tax Invoice (expense)",
+              "Created": "2017-05-12T21:38:09.000Z",
+              "Modified": "2017-05-12T21:38:09.000Z",
+              "Deleted": null,
+              "Attributes": [
+                {
+                  "TypeID": 1878799,
+                  "AttributeKey": "TotalDue",
+                  "Label": "Total Due",
+                  "Required": 1,
+                  "DefaultValue": "0.00",
+                  "Created": "2017-05-12T21:40:07.000Z",
+                  "Modified": "2017-05-12T22:23:36.000Z",
+                  "Deleted": null
+                },
+                {
+                  "TypeID": 1878799,
+                  "AttributeKey": "DateDue",
+                  "Label": "Date Due",
+                  "Required": 1,
+                  "DefaultValue": "",
+                  "Created": "2017-05-12T22:01:18.000Z",
+                  "Modified": "2017-05-12T22:23:36.000Z",
+                  "Deleted": null
+                },
+                {
+                  "TypeID": 1878799,
+                  "AttributeKey": "DatePaid",
+                  "Label": "Date Paid",
+                  "Required": 0,
+                  "DefaultValue": "",
+                  "Created": "2017-05-12T22:01:18.000Z",
+                  "Modified": "2017-05-12T22:23:36.000Z",
+                  "Deleted": null
+                },
+                {
+                  "TypeID": 1878799,
+                  "AttributeKey": "IssuedBy",
+                  "Label": "Issued By",
+                  "Required": 1,
+                  "DefaultValue": "",
+                  "Created": "2017-05-12T22:01:18.000Z",
+                  "Modified": "2017-05-12T22:23:36.000Z",
+                  "Deleted": null
+                }
+              ]
+            },
+            {
+              "ID": 1878801,
+              "UserID": 1,
+              "ParentID": null,
+              "ClassName": "BankAccount",
+              "Slug": "bank-account",
+              "Label": "Bank Account",
+              "Created": "2017-05-12T21:38:09.000Z",
+              "Modified": "2017-05-12T21:38:09.000Z",
+              "Deleted": null,
+              "Attributes": []
+            },
+            {
+              "ID": 1878802,
+              "UserID": 1,
+              "ParentID": null,
+              "ClassName": "DomainName",
+              "Slug": "domain-name",
+              "Label": "Domain Name",
+              "Created": "2017-05-12T21:38:09.000Z",
+              "Modified": "2017-05-12T21:38:09.000Z",
+              "Deleted": null,
+              "Attributes": [
+                {
+                  "TypeID": 1878802,
+                  "AttributeKey": "TLD",
+                  "Label": "TLD",
+                  "Required": 1,
+                  "DefaultValue": "com",
+                  "Created": "2017-05-12T22:30:01.000Z",
+                  "Modified": "2017-05-12T22:30:01.000Z",
+                  "Deleted": null
+                },
+                {
+                  "TypeID": 1878802,
+                  "AttributeKey": "FQDN",
+                  "Label": "FQDN",
+                  "Required": 1,
+                  "DefaultValue": "example.com",
+                  "Created": "2017-05-12T22:30:01.000Z",
+                  "Modified": "2017-05-12T22:30:01.000Z",
+                  "Deleted": null
+                },
+                {
+                  "TypeID": 1878802,
+                  "AttributeKey": "Registrar",
+                  "Label": "Registrar",
+                  "Required": 1,
+                  "DefaultValue": null,
+                  "Created": "2017-05-12T22:30:01.000Z",
+                  "Modified": "2017-05-12T22:30:01.000Z",
+                  "Deleted": null
+                }
+              ]
+            }
+          ]
+          ```
+      responses:
+        200:
+          description: Returns a list of Entity Types
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityType'
+  /U/{UserID}/{EntityClassName}:
+    parameters:
+      - name: UserID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    get:
+      tags:
+        - Entity Types
+      summary: Fetch an Entity Type
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    post:
+      tags:
+        - Entity Types
+      summary: Create a new Entity Type
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+  /U/{UserID}/{EntityClassName}/A/{AttributeKey}:
+    parameters:
+      - name: UserID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: AttributeKey
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    get:
+      tags:
+        - Entity Type Attributes
+      summary: Fetch an Entity Type Attribute
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    post:
+      tags:
+        - Entity Type Attributes
+      summary: Create a new Entity Type Attribute
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    put:
+      tags:
+        - Entity Type Attributes
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+  /U/{UserID}/{EntityClassName}/E/{EntityID}:
+    parameters:
+      - name: UserID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    get:
+      tags:
+        - Entities
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    post:
+      tags:
+        - Entities
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    delete:
+      tags:
+        - Entities
+      description: Returns a greeting to the user!
+      responses:
+        202:
+          description: Accepted
+        400:
+          description: Invalid characters in "user" were provided.
+  /U/{UserID}/{EntityClassName}/E/{EntityID}/A/{AttributeKey}:
+    parameters:
+      - name: UserID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityClassName
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: EntityID
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+      - name: AttributeKey
+        in: path
+        type: string
+        required: true
+        description: The name of the user to greet.
+    get:
+      tags:
+        - Entity Attributes
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    put:
+      tags:
+        - Entity Attributes
+      description: Returns a greeting to the user!
+      responses:
+        200:
+          description: Returns the greeting.
+          schema:
+            type: string
+        400:
+          description: Invalid characters in "user" were provided.
+    delete:
+      tags:
+        - Entity Attributes
+      description: Returns a greeting to the user!
+      responses:
+        202:
+          description: Accepted
+        400:
+          description: Invalid characters in "user" were provided.
+definitions:
+  Entity:
+    type: object
+    properties:
+      ID:
+        type: number
+        example: 1381007
+      TypeID:
+        type: number
+        example: 1420117
+      UserID:
+        type: number
+        example: 1775619
+      Created:
+        type: string
+        format: date-time
+      Deleted:
+        type: string
+        format: date-time
+        default: null
+      Attributes:
+        type: array
+        items:
+          $ref: '#/definitions/EntityAttribute'
+  EntityType:
+    type: object
+    properties:
+      ID:
+        type: number
+        example: 1381007
+      UserID:
+        type: number
+        example: 1775619
+      ParentID:
+        type: number
+      ClassName:
+        type: string
+        example: DomainName
+      Slug:
+        type: string
+        example: domain-name
+      Label:
+        type: string
+        example: Domain Name
+      Created:
+        type: string
+        format: date-time
+      Modified:
+        type: string
+        format: date-time
+      Deleted:
+        type: string
+        format: date-time
+        default: null
+      Attributes:
+        type: array
+        items:
+          $ref: '#/definitions/TypeAttribute'
+  EntityAttribute:
+    type: object
+    properties:
+      EntityID:
+        type: number
+      AttributeKey:
+        type: string
+      AttributeValue:
+        type: string
+      Created:
+        type: string
+        format: date-time
+      Modified:
+        type: string
+        format: date-time
+      Deleted:
+        type: string
+        format: date-time
+        default: null
+  TypeAttribute:
+    type: object
+    properties:
+      TypeID:
+        type: number
+      AttributeKey:
+        type: string
+        example: FurColour
+      Label:
+        type: string
+        example: Fur Colour
+      Required:
+        type: boolean
+      DefaultValue:
+        type: string
+      Created:
+        type: string
+        format: date-time
+      Modified:
+        type: string
+        format: date-time
+      Deleted:
+        type: string
+        format: date-time
+        default: null
