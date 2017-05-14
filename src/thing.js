@@ -16,11 +16,12 @@
 'use strict';
 
 const Thing = require('./Thing');
+const allTypes = require('./allTypes');
 
 module.exports = function () {
 
   let things = {};
-  let schemas = {};
+  let types = allTypes();
 
   let routes;
 
@@ -32,21 +33,12 @@ module.exports = function () {
 
   routes = things.User.routes();
 
-  Object.values(things).forEach((thing) => {
-    schemas[thing.name] = {
-      type: 'object',
-    };
-    schemas[`New${thing.name}`] = {
-      type: 'object',
-    };
-  });
-
   process.stdout.write(JSON.stringify(routes, undefined, '  '));
   process.stdout.write(''+routes.length);
 
   return {
     routes: routes,
-    schemas: schemas,
+    types: types,
   };
 
   function requireThing (name) {

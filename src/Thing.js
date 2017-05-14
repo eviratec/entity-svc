@@ -92,6 +92,7 @@ module.exports = class Thing {
   routes (prefix) {
 
     let typeName = this.name;
+    let pluralUriName = this.pluralUriName;
     let r = [];
 
     let thisRouteURI;
@@ -132,6 +133,7 @@ module.exports = class Thing {
         uri: uri,
         operationId: operationId,
         modelType: typeName,
+        pluralUriName: pluralUriName,
       });
     }
 

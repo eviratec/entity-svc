@@ -26,13 +26,22 @@ module.exports = function (thing) {
 
   let spec = newSwaggerSpec();
 
-  initPaths(thing.routes, spec);
+  defineRoutes(thing.routes, spec);
+  defineTypes(thing.types, spec);
 
   return spec;
 
 };
 
-function initPaths (routes, spec) {
+function defineTypes (types, spec) {
+  console.log(types);
+  Object.keys(types).forEach((typeName) => {
+    let type = types[typeName];
+    spec.definitions[typeName] = type;
+  });
+}
+
+function defineRoutes (routes, spec) {
   routes.forEach((route) => {
 
     let method = route.method.toLowerCase();
@@ -72,6 +81,18 @@ function initPaths (routes, spec) {
     if ('delete' === method) {
 
       e.summary = `Deletes an existing ${route.modelType}`;
+
+    }
+
+    if ('get' === method && route.uri.match(/List$/)) {
+
+      e.summary = `Retrieves a list of ${route.pluralUriName}`;
+
+    }
+
+    if ('get' === method && !route.uri.match(/List$/)) {
+
+      e.summary = `Retrieves an existing ${route.modelType}`;
 
     }
 
