@@ -25,12 +25,6 @@ module.exports = function () {
     name: 'User',
     uriPrefix: 'U/',
     idProperty: 'UserID',
-    provide: {
-      // r: true,
-    },
-    // additionalSubRoutes: [
-    //   { method: 'PUT', uri: 'Password' },
-    // ],
   });
 
   things.Type = new Thing({
@@ -89,5 +83,7 @@ module.exports = function () {
 
   process.stdout.write(JSON.stringify(routes, undefined, '  '));
   process.stdout.write(''+routes.length);
+
+  return routes;
 
 };

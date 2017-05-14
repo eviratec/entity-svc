@@ -15,8 +15,12 @@
  */
 'use strict';
 
+const yaml = require('js-yaml');
+
 const db = require('./src/apps');
 const thing = require('./src/thing')();
+
+const swaggerSpec = require('./src/swagger');
 
 module.exports = function (app) {
 
@@ -133,6 +137,21 @@ module.exports = function (app) {
       });
 
   }
+
+  // GET /routes
+  addRoute(app.get('/routes', (req, res) => {
+    res.send(JSON.stringify(thing, undefined, '  '));
+  }));
+
+  // GET /swagger.json
+  addRoute(app.get('/swagger.json', (req, res) => {
+    res.send(JSON.stringify(swaggerSpec(thing), undefined, '  '));
+  }));
+
+  // GET /swagger.yml
+  addRoute(app.get('/swagger.yml', (req, res) => {
+    res.send(yaml.safeDump(swaggerSpec(thing)));
+  }));
 
   // GET /User/:UserID/:EntityClassName
   addRoute(app.get(URI.TYPE, (req, res) => {

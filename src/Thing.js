@@ -86,8 +86,10 @@ module.exports = class Thing {
 
   routes (prefix) {
 
-    let thisRouteURI;
+    let typeName = this.name;
     let r = [];
+
+    let thisRouteURI;
 
     prefix = prefix || '';
 
@@ -124,7 +126,12 @@ module.exports = class Thing {
     return r;
 
     function route (method, uri, operationId) {
-      r.push('| ' + [method, uri, operationId].join(' | ') + ' |');
+      r.push({
+        method: method,
+        uri: uri,
+        operationId: operationId,
+        modelType: typeName,
+      });
     }
 
   }
