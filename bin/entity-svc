@@ -23,11 +23,15 @@ const app = express();
 
 const pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
 
-process.stdout.write(`eviratec/entity-svc@v${pkg.version}\n`);
-process.stdout.write(`Copyright (c) 2017 Callan Peter Milne\n`);
+writeOut(`eviratec/entity-svc@v${pkg.version}`);
+writeOut(`Copyright (c) 2017 Callan Peter Milne`);
 
 require('../routes')(app);
 
 app.listen(5002, function () {
-  process.stdout.write(`Web service listening on port 5002\n`);
+  writeOut(`Web service listening on port 5002`);
 });
+
+function writeOut (msg) {
+  process.stdout.write(`!> ${msg}\n`);
+}
