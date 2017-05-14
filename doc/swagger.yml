@@ -488,6 +488,7 @@ paths:
         400:
           description: Invalid characters in "user" were provided.
     put:
+      operationId: setEntityAttributeValue
       tags:
         - Entity Attributes
       summary: Update the Value for an Attribute on an Entity
@@ -500,6 +501,7 @@ paths:
         400:
           description: Invalid characters in "user" were provided.
     delete:
+      operationId: unsetEntityAttributeValue
       tags:
         - Entity Attributes
       summary: Delete a the current value for an Entity Attribute using it's AttributeKey

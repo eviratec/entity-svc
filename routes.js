@@ -16,6 +16,7 @@
 'use strict';
 
 const db = require('./src/apps');
+const thing = require('./src/thing')();
 
 module.exports = function (app) {
 
