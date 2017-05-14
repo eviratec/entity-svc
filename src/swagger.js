@@ -86,6 +86,7 @@ module.exports = function (routes) {
 
       e.responses['200'] = {
         description: 'Success',
+        $ref: `#/definitions/${route.modelType}`,
       };
 
       e.responses['404'] = {

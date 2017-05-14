@@ -15,6 +15,11 @@
  */
 'use strict';
 
+const HTTP_VERB_GET = 'GET';
+const HTTP_VERB_PUT = 'PUT';
+const HTTP_VERB_POST = 'POST';
+const HTTP_VERB_DELETE = 'DELETE';
+
 module.exports = class Thing {
 
   constructor (opt) {
@@ -95,24 +100,20 @@ module.exports = class Thing {
 
     thisRouteURI = `${prefix}/${this.uriPrefix}{${this.idProperty}}`;
 
-    let canCreate = this.hasCreateRoute;
-    if (canCreate) {
-      route('POST', `${prefix}/${this.pluralUriName}`, `create${this.name}`);
-    }
+    this.hasCreateRoute &&
+      route(HTTP_VERB_POST, `${prefix}/${this.pluralUriName}`, `create${this.name}`);
 
-    let canList = this.hasListRoute;
-    if (canList) {
-      route('GET', `${prefix}/${this.uriName}/List`, `get${this.name}List`);
-    }
+    this.hasListRoute &&
+      route(HTTP_VERB_GET, `${prefix}/${this.uriName}/List`, `get${this.name}List`);
 
     this.hasReadRoute &&
-      route('GET', thisRouteURI, `get${this.name}By${this.idProperty}`);
+      route(HTTP_VERB_GET, thisRouteURI, `get${this.name}By${this.idProperty}`);
 
     this.hasUpdateRoute &&
-      route('PUT', thisRouteURI, `update${this.name}By${this.idProperty}`);
+      route(HTTP_VERB_PUT, thisRouteURI, `update${this.name}By${this.idProperty}`);
 
     this.hasDeleteRoute &&
-      route('DELETE', thisRouteURI, `delete${this.name}By${this.idProperty}`);
+      route(HTTP_VERB_DELETE, thisRouteURI, `delete${this.name}By${this.idProperty}`);
 
     this.additionalSubRoutes.forEach((route) => {
       route(route.method, `${thisRouteURI}/${route.uri}`, route.operationId);

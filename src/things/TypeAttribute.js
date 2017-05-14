@@ -15,29 +15,17 @@
  */
 'use strict';
 
-const Thing = require('./Thing');
-
-module.exports = function () {
-
-  let things = {};
-
-  let routes;
-
-  things.User = requireThing('User');
-  things.Type = requireThing('Type');
-  things.TypeAttribute = requireThing('TypeAttribute');
-  things.Entity = requireThing('Entity');
-  things.EntityAttribute = requireThing('EntityAttribute');
-
-  routes = things.User.routes();
-
-  process.stdout.write(JSON.stringify(routes, undefined, '  '));
-  process.stdout.write(''+routes.length);
-
-  return routes;
-
-  function requireThing (name) {
-    return require(`./things/${name}`)(Thing, things);
-  }
-
+module.exports = function (Thing, things) {
+  return things.TypeAttribute = new Thing({
+    name: 'TypeAttribute',
+    uriName: 'Attribute',
+    uriPrefix: 'A/',
+    idProperty: 'AttributeKey',
+    parentThing: things.Type,
+    provide: {
+      c: true,
+      r: true,
+      u: true,
+    },
+  });
 };
