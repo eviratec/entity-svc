@@ -4,21 +4,21 @@ This repository contains the source for the Eviratec Entity (micro)service.
 
 ## Routes
 
-| Method | URI |
-|---|---|
-| *POST*   | /U/{UserID}/Types |
-| *GET*    | /U/{UserID}/Type/List |
-| *GET*    | /U/{UserID}/T/{ClassName} |
-| *POST*   | /U/{UserID}/T/{ClassName}/Attributes |
-| *GET*    | /U/{UserID}/T/{ClassName}/A/{AttributeKey} |
-| *PUT*    | /U/{UserID}/T/{ClassName}/A/{AttributeKey} |
-| *POST*   | /U/{UserID}/T/{ClassName}/Entities |
-| *GET*    | /U/{UserID}/T/{ClassName}/Entity/List |
-| *GET*    | /U/{UserID}/T/{ClassName}/E/{EntityID} |
-| *DELETE* | /U/{UserID}/T/{ClassName}/E/{EntityID} |
-| *GET*    | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} |
-| *PUT*    | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} |
-| *DELETE* | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey |
+| Method | URI | Operation ID |
+|---|---|---|
+| POST | /U/{UserID}/Types | createType |
+| GET | /U/{UserID}/Type/List | getTypeList |
+| GET | /U/{UserID}/T/{ClassName} | getTypeByClassName |
+| POST | /U/{UserID}/T/{ClassName}/Attributes | createTypeAttribute |
+| GET | /U/{UserID}/T/{ClassName}/A/{AttributeKey} | getTypeAttributeByAttributeKey |
+| PUT | /U/{UserID}/T/{ClassName}/A/{AttributeKey} | updateTypeAttributeByAttributeKey |
+| POST | /U/{UserID}/T/{ClassName}/Entities | createEntity |
+| GET | /U/{UserID}/T/{ClassName}/Entity/List | getEntityList |
+| GET | /U/{UserID}/T/{ClassName}/E/{EntityID} | getEntityByEntityID |
+| DELETE | /U/{UserID}/T/{ClassName}/E/{EntityID} | deleteEntityByEntityID |
+| GET | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} | getEntityAttributeByAttributeKey |
+| PUT | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} | updateEntityAttributeByAttributeKey |
+| DELETE | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} | deleteEntityAttributeByAttributeKey |
 
 ## Env
 

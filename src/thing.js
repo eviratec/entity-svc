@@ -95,25 +95,25 @@ const Thing = class Thing {
 
     let canCreate = this.hasCreateRoute;
     if (canCreate) {
-      r.push(`  POST   ${prefix}/${this.pluralUriName}`);
+      route('POST', `${prefix}/${this.pluralUriName}`, `create${this.name}`);
     }
 
     let canList = this.hasListRoute;
     if (canList) {
-      r.push(`  GET    ${prefix}/${this.uriName}/List`);
+      route('GET', `${prefix}/${this.uriName}/List`, `get${this.name}List`);
     }
 
     this.hasReadRoute &&
-      r.push('  GET    ' + thisRouteURI);
+      route('GET', thisRouteURI, `get${this.name}By${this.idProperty}`);
 
     this.hasUpdateRoute &&
-      r.push('  PUT    ' + thisRouteURI);
+      route('PUT', thisRouteURI, `update${this.name}By${this.idProperty}`);
 
     this.hasDeleteRoute &&
-      r.push('  DELETE ' + thisRouteURI);
+      route('DELETE', thisRouteURI, `delete${this.name}By${this.idProperty}`);
 
     this.additionalSubRoutes.forEach((route) => {
-      r.push(`* ${route.method}    ${thisRouteURI}/${route.uri}`);
+      route(route.method, `${thisRouteURI}/${route.uri}`, route.operationId);
     });
 
     this.subThings.forEach((thing) => {
@@ -122,6 +122,10 @@ const Thing = class Thing {
     });
 
     return r;
+
+    function route (method, uri, operationId) {
+      r.push('| ' + [method, uri, operationId].join(' | ') + ' |');
+    }
 
   }
 
