@@ -20,6 +20,7 @@ const Thing = require('./Thing');
 module.exports = function () {
 
   let things = {};
+  let schemas = {};
 
   let routes;
 
@@ -31,10 +32,22 @@ module.exports = function () {
 
   routes = things.User.routes();
 
+  Object.values(things).forEach((thing) => {
+    schemas[thing.name] = {
+      type: 'object',
+    };
+    schemas[`New${thing.name}`] = {
+      type: 'object',
+    };
+  });
+
   process.stdout.write(JSON.stringify(routes, undefined, '  '));
   process.stdout.write(''+routes.length);
 
-  return routes;
+  return {
+    routes: routes,
+    schemas: schemas,
+  };
 
   function requireThing (name) {
     return require(`./things/${name}`)(Thing, things);

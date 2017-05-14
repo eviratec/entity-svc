@@ -140,7 +140,7 @@ module.exports = function (app) {
 
   // GET /routes
   addRoute(app.get('/routes', (req, res) => {
-    res.send(JSON.stringify(thing, undefined, '  '));
+    res.send(JSON.stringify(thing.routes, undefined, '  '));
   }));
 
   // GET /swagger.json

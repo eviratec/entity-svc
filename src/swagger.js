@@ -22,43 +22,17 @@ const API_DESCRIPTION =
   '[eviratec.com.au](https://www.eviratec.com.au)' +
   ' / [3xqt.co](http://www.3xqt.co)';
 
-module.exports = function (routes) {
+module.exports = function (thing) {
 
-  let spec = {
-    swagger: SWAGGER_VERSION,
-    info: {
-      version: API_VERSION,
-      title: API_TITLE,
-      description: API_DESCRIPTION,
-    },
-    paths: {},
-    definitions: {
-      Entity: {
-        type: 'object',
-      },
-      EntityAttribute: {
-        type: 'object',
-      },
-      Type: {
-        type: 'object',
-      },
-      TypeAttribute: {
-        type: 'object',
-      },
-      NewEntity: {
-        type: 'object',
-      },
-      NewType: {
-        type: 'object',
-      },
-      NewTypeAttribute: {
-        type: 'object',
-      },
-    },
-  };
+  let spec = newSwaggerSpec();
 
-  // spec.routes = routes;
+  initPaths(thing.routes, spec);
 
+  return spec;
+
+};
+
+function initPaths (routes, spec) {
   routes.forEach((route) => {
 
     let method = route.method.toLowerCase();
@@ -126,29 +100,39 @@ module.exports = function (routes) {
     }
 
   });
+}
 
-  return spec;
+function initUri (uri, spec) {
 
-  function initUri (uri, spec) {
-
-    if (uriInitialised(uri, spec)) {
-      return;
-    }
-
-    spec.paths[uri] = {
-      parameters: [{
-        name: 'UserID',
-        in: 'path',
-        type: 'number',
-        required: true,
-        description: 'The ID of the user who owns the resource',
-      }],
-    };
-
+  if (uriInitialised(uri, spec)) {
+    return;
   }
 
-  function uriInitialised (uri, spec) {
-    return uri in spec.paths;
-  }
+  spec.paths[uri] = {
+    parameters: [{
+      name: 'UserID',
+      in: 'path',
+      type: 'number',
+      required: true,
+      description: 'The ID of the user who owns the resource',
+    }],
+  };
 
-};
+}
+
+function newSwaggerSpec () {
+  return {
+    swagger: SWAGGER_VERSION,
+    info: {
+      version: API_VERSION,
+      title: API_TITLE,
+      description: API_DESCRIPTION,
+    },
+    paths: {},
+    definitions: {},
+  };
+}
+
+function uriInitialised (uri, spec) {
+  return uri in spec.paths;
+}
