@@ -2,10 +2,10 @@
   "name": "entity-svc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "bin": "./bin/entity-svc",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/eviratec-app-svc"
+    "start": "node ./bin/entity-svc"
   },
   "author": "Callan Peter Milne <callan.milne@eviratec.com.au>",
   "license": "ISC",
