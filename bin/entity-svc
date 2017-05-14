@@ -21,6 +21,15 @@ const express = require('express');
 
 const app = express();
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  if ('options' === req.method.toLowerCase()) {
+    res.send(204);
+  }
+  // next();
+});
+
 const pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
 
 writeOut(`eviratec/entity-svc@v${pkg.version}`);

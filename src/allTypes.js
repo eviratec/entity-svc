@@ -152,11 +152,11 @@ module.exports = function () {
       "properties": {
         "AttributeKey": {
           "type": "string",
-          "example": "FirstGivenName"
+          "example": "FurColour"
         },
         "AttributeValue": {
           "type": "string",
-          "example": "Charlton"
+          "example": "Black & White"
         }
       }
     },

@@ -12,7 +12,7 @@
   "dependencies": {
     "bookshelf": "0.10.3",
     "express": "4.15.2",
-    "js-yaml": "^3.8.4",
+    "js-yaml": "3.8.4",
     "knex": "0.12.9",
     "mysql": "2.13.0"
   }

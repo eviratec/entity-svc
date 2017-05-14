@@ -18,6 +18,11 @@
 const SWAGGER_VERSION = '2.0';
 const API_VERSION = '1.0.0';
 const API_TITLE = '3XQT Entity API';
+const API_URL = '3XQT Entity API';
+const API_SCHEMES = ['http', 'https'];
+const API_HOST = 'localhost:5002'
+const API_CONSUMES = ['application/json'];
+const API_PRODUCES = ['application/json'];
 const API_DESCRIPTION =
   '[eviratec.com.au](https://www.eviratec.com.au)' +
   ' / [3xqt.co](http://www.3xqt.co)';
@@ -34,7 +39,6 @@ module.exports = function (thing) {
 };
 
 function defineTypes (types, spec) {
-  console.log(types);
   Object.keys(types).forEach((typeName) => {
     let type = types[typeName];
     spec.definitions[typeName] = type;
@@ -53,10 +57,10 @@ function defineRoutes (routes, spec) {
 
     e = spec.paths[uri][method] = {
       operationId: route.operationId,
-      parameters: [],
       summary: '',
       description: '',
       tags: [route.modelType],
+      parameters: [],
       produces: ['application/json'],
       responses: {
         500: {
@@ -67,32 +71,40 @@ function defineRoutes (routes, spec) {
 
     if ('get' === method) {
 
+      let isListRoute;
+
       e.responses['200'] = {
         description: 'Success',
-        $ref: `#/definitions/${route.modelType}`,
+        schema: {
+          $ref: `#/definitions/${route.modelType}`,
+        },
       };
 
       e.responses['404'] = {
         description: 'Not Found',
       };
 
+      isListRoute = route.uri.match(/List$/);
+
+      if (isListRoute) {
+        e.summary = `Retrieves a list of ${route.pluralUriName}`;
+        e.responses['200'].schema = {
+          type: 'array',
+          items: {
+            $ref: `#/definitions/${route.modelType}`,
+          },
+        };
+      };
+
+      if (!isListRoute) {
+        e.summary = `Retrieves an existing ${route.modelType}`;
+      }
+
     }
 
     if ('delete' === method) {
 
       e.summary = `Deletes an existing ${route.modelType}`;
-
-    }
-
-    if ('get' === method && route.uri.match(/List$/)) {
-
-      e.summary = `Retrieves a list of ${route.pluralUriName}`;
-
-    }
-
-    if ('get' === method && !route.uri.match(/List$/)) {
-
-      e.summary = `Retrieves an existing ${route.modelType}`;
 
     }
 
@@ -129,14 +141,48 @@ function initUri (uri, spec) {
     return;
   }
 
-  spec.paths[uri] = {
-    parameters: [{
-      name: 'UserID',
+  let pathParams;
+
+  pathParams = [{
+    name: 'UserID',
+    in: 'path',
+    type: 'number',
+    required: true,
+    description: 'The ID of the user who owns the resource',
+  }];
+
+  if (/\/T\/\{ClassName\}/.test(uri)) {
+    pathParams.push({
+      name: 'ClassName',
+      in: 'path',
+      type: 'string',
+      required: true,
+      description: 'The EntityType\'s ClassName',
+    });
+  }
+
+  if (/\/E\/\{EntityID\}/.test(uri)) {
+    pathParams.push({
+      name: 'EntityID',
       in: 'path',
       type: 'number',
       required: true,
-      description: 'The ID of the user who owns the resource',
-    }],
+      description: 'The Entity\'s ID',
+    });
+  }
+
+  if (/\/A\/\{AttributeKey\}/.test(uri)) {
+    pathParams.push({
+      name: 'AttributeKey',
+      in: 'path',
+      type: 'string',
+      required: true,
+      description: 'The Attribute\'s AttributeKey',
+    });
+  }
+
+  spec.paths[uri] = {
+    parameters: pathParams,
   };
 
 }
@@ -149,6 +195,10 @@ function newSwaggerSpec () {
       title: API_TITLE,
       description: API_DESCRIPTION,
     },
+    host: API_HOST,
+    schemes: API_SCHEMES,
+    consumes: API_CONSUMES,
+    produces: API_PRODUCES,
     paths: {},
     definitions: {},
   };

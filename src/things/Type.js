@@ -17,7 +17,8 @@
 
 module.exports = function (Thing, things) {
   return things.Type = new Thing({
-    name: 'Type',
+    name: 'EntityType',
+    uriName: 'Type',
     uriPrefix: 'T/',
     idProperty: 'ClassName',
     parentThing: things.User,
