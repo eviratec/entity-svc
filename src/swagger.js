@@ -32,7 +32,29 @@ module.exports = function (routes) {
       description: API_DESCRIPTION,
     },
     paths: {},
-    definitions: {},
+    definitions: {
+      Entity: {
+        type: 'object',
+      },
+      EntityAttribute: {
+        type: 'object',
+      },
+      Type: {
+        type: 'object',
+      },
+      TypeAttribute: {
+        type: 'object',
+      },
+      NewEntity: {
+        type: 'object',
+      },
+      NewType: {
+        type: 'object',
+      },
+      NewTypeAttribute: {
+        type: 'object',
+      },
+    },
   };
 
   // spec.routes = routes;
@@ -60,6 +82,24 @@ module.exports = function (routes) {
       },
     };
 
+    if ('get' === method) {
+
+      e.responses['200'] = {
+        description: 'Success',
+      };
+
+      e.responses['404'] = {
+        description: 'Not Found',
+      };
+
+    }
+
+    if ('delete' === method) {
+
+      e.summary = `Deletes an existing ${route.modelType}`;
+
+    }
+
     if ('post' === method) {
 
       e.summary = `Creates a new ${route.modelType}`;
@@ -67,10 +107,10 @@ module.exports = function (routes) {
       e.parameters.push({
         name: 'model',
         in: 'body',
-        description: `The ${route.modelType} to add/create`,
+        description: `The new **${route.modelType}** to add`,
         required: true,
         schema: {
-          $ref: `#/definitions/${route.modelType}`,
+          $ref: `#/definitions/New${route.modelType}`,
         },
       });
 
@@ -100,6 +140,7 @@ module.exports = function (routes) {
         in: 'path',
         type: 'number',
         required: true,
+        description: 'The ID of the user who owns the resource',
       }],
     };
 
