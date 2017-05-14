@@ -2,11 +2,31 @@
 
 This repository contains the source for the Eviratec Entity (micro)service.
 
-## Requirements
+## Routes
+
+| Method | URI |
+|---|---|
+| *POST*   | /U/{UserID}/Types |
+| *GET*    | /U/{UserID}/Type/List |
+| *GET*    | /U/{UserID}/T/{ClassName} |
+| *POST*   | /U/{UserID}/T/{ClassName}/Attributes |
+| *GET*    | /U/{UserID}/T/{ClassName}/A/{AttributeKey} |
+| *PUT*    | /U/{UserID}/T/{ClassName}/A/{AttributeKey} |
+| *POST*   | /U/{UserID}/T/{ClassName}/Entities |
+| *GET*    | /U/{UserID}/T/{ClassName}/Entity/List |
+| *GET*    | /U/{UserID}/T/{ClassName}/E/{EntityID} |
+| *DELETE* | /U/{UserID}/T/{ClassName}/E/{EntityID} |
+| *GET*    | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} |
+| *PUT*    | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey} |
+| *DELETE* | /U/{UserID}/T/{ClassName}/E/{EntityID}/A/{AttributeKey |
+
+## Env
+
+### Requirements
 
 * Eviratec core db *coming soon*
 
-## Set up
+### Set up
 
 1. `$ npm install`
 2. `$ export EV_MYSQL_USER=root`
@@ -16,8 +36,10 @@ This repository contains the source for the Eviratec Entity (micro)service.
 
 ## License
 
+```
 Copyright (c) 2017 Callan Peter Milne
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+```
