@@ -171,6 +171,23 @@ module.exports = function (app) {
 
   }));
 
+  addRoute(app.get('/U/:UserID/T/:EntityClassName/List', (req, res) => {
+
+    let UserID = req.params.UserID;
+    let EntityClassName = req.params.EntityClassName;
+
+    return fetchItemOrTypeList(UserID, EntityClassName, 'List', res);
+
+  }));
+
+  addRoute(app.get('/U/:UserID/Type/List', (req, res) => {
+
+    let UserID = req.params.UserID;
+
+    return fetchItemOrTypeList(UserID, 'Type', 'List', res);
+
+  }));
+
   // GET /User/:UserID/:EntityClassName/:EntityID
   addRoute(app.get(URI.ENTITY, (req, res) => {
 
