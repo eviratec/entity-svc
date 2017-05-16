@@ -1,5 +1,8 @@
 # Eviratec Entity Service
 
+[![Dependency Status](https://david-dm.org/eviratec/entity-svc/status.svg)](https://david-dm.org/eviratec/entity-svc)
+[![devDependency Status](https://david-dm.org/eviratec/entity-svc/dev-status.svg)](https://david-dm.org/eviratec/entity-svc#info=devDependencies)
+
 This repository contains the source for the Eviratec Entity (micro)service.
 
 ## Routes
