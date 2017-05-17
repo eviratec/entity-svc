@@ -19,240 +19,253 @@ const yaml = require('js-yaml');
 
 const db = require('./src/apps');
 const thing = require('./src/thing')();
+const apiRoutesJson = JSON.stringify(thing.routes, undefined, '  ');
 
-const swaggerSpec = require('./src/swagger');
+const swaggerSpec = require('./src/swagger')(thing);
+const swaggerJson = JSON.stringify(swaggerSpec, undefined, '  ');
+const swaggerYaml = yaml.safeDump(swaggerSpec);
 
 module.exports = function (app) {
 
-  const USER_ID_PREFIX = 'U';
-  const ENTITY_ID_PREFIX = 'E';
-  const ENTITY_CLASS_PREFIX = 'T';
-  const ATTR_KEY_PREFIX = 'A';
-
-  const USER_CLASS_NAME = 'User';
-  const LIST_CLASS_NAME = 'List';
-  const USER_ID = ':UserID';
-  const ENTITY_CLASS_NAME = ':EntityClassName';
-  const ENTITY_ID = ':EntityID';
-  const ATTRIBUTE_KEY = ':AttributeKey';
   const TYPE_ENTITY_CLASS_NAME = 'Type';
+  const URI = {};
 
-  const URI = {
+  URI.USER = '/U/:UserID';
 
-    /**
-     * #/U/:UserID
-     */
-     USER: apiUri([
-      USER_ID_PREFIX,
-      USER_ID,
-    ]),
+  URI.TYPES = '/U/:UserID/Types';
+  URI.TYPE = '/U/:UserID/T/:ClassName';
+  URI.TYPE_LIST = '/U/:UserID/Type/List';
+  URI.TYPE_ATTR = '/U/:UserID/T/:ClassName/A/:AttributeKey';
 
-    /**
-     * #/U/:UserID/T/:EntityClassName
-     */
-     TYPE: apiUri([
-      USER_ID_PREFIX,
-      USER_ID,
-      ENTITY_CLASS_PREFIX,
-      ENTITY_CLASS_NAME,
-    ]),
-
-    /**
-     * #/U/:UserID/T/:EntityClassName/A/:AttributeKey
-     */
-     TYPE_ATTR: apiUri([
-      USER_ID_PREFIX,
-      USER_ID,
-      ENTITY_CLASS_PREFIX,
-      ENTITY_CLASS_NAME,
-      ATTR_KEY_PREFIX,
-      ATTRIBUTE_KEY,
-    ]),
-
-    /**
-     * #/U/:UserID/T/:EntityClassName/E/:EntityID
-     */
-     ENTITY: apiUri([
-      USER_ID_PREFIX,
-      USER_ID,
-      ENTITY_CLASS_PREFIX,
-      ENTITY_CLASS_NAME,
-      ENTITY_ID_PREFIX,
-      ENTITY_ID,
-    ]),
-
-    /**
-     * #/U/:UserID/T/:EntityClassName/E/:EntityID/A/:AttributeKey
-     */
-     ENTITY_ATTR: apiUri([
-      USER_ID_PREFIX,
-      USER_ID,
-      ENTITY_CLASS_PREFIX,
-      ENTITY_CLASS_NAME,
-      ENTITY_ID_PREFIX,
-      ENTITY_ID,
-      ATTR_KEY_PREFIX,
-      ATTRIBUTE_KEY,
-    ]),
-
-  }
+  URI.ENTITIES = '/U/:UserID/T/:ClassName/Entities';
+  URI.ENTITY = '/U/:UserID/T/:ClassName/E/:EntityID';
+  URI.ENTITY_LIST = '/U/:UserID/T/:ClassName/Entity/List';
+  URI.ENTITY_ATTR = '/U/:UserID/T/:ClassName/E/:EntityID/A/:AttributeKey';
 
   let routes = [];
 
-  function fetchItemOrTypeList (UserID, EntityClassName, EntityID, res) {
+  /**
+   *     ______  _____ ______________
+   *     |     \|     ||      |______
+   *     |_____/|_____||_____ ______|
+   *
+   */
 
-    let isTypeListRequest;
-
-    isTypeListRequest = TYPE_ENTITY_CLASS_NAME === EntityClassName;
-    if (isTypeListRequest) {
-      return fetchTypeList(UserID, EntityClassName, res);
-    }
-
-    return fetchItemList(UserID, EntityClassName, res);
-
-  }
-
-  function fetchItemList (UserID, EntityClassName, res) {
-
-    return db.fetchItemList(UserID, EntityClassName)
-      .then(function (itemList) {
-        return res.send(JSON.stringify(itemList, undefined, '  '));
-      })
-      .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
-      });
-
-  }
-
-  function fetchTypeList (UserID, EntityClassName, res) {
-
-    return db.fetchTypeList(UserID)
-      .then(function (typeList) {
-        return res.send(JSON.stringify(typeList, undefined, '  '));
-      })
-      .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
-      });
-
-  }
-
-  // GET /routes
+  /**
+   * GET /routes
+   */
   addRoute(app.get('/routes', (req, res) => {
-    res.send(JSON.stringify(thing.routes, undefined, '  '));
+    res.send(apiRoutesJson);
   }));
 
-  // GET /swagger.json
+  /**
+   * GET /swagger.json
+   */
   addRoute(app.get('/swagger.json', (req, res) => {
-    res.send(JSON.stringify(swaggerSpec(thing), undefined, '  '));
+    res.send(swaggerJson);
   }));
 
-  // GET /swagger.yml
+  /**
+   * GET /swagger.yml
+   */
   addRoute(app.get('/swagger.yml', (req, res) => {
-    res.send(yaml.safeDump(swaggerSpec(thing)));
+    res.send(swaggerYaml);
   }));
 
-  // GET /User/:UserID/:EntityClassName
+  /**
+   *     _________   __ _____ _______
+   *        |     \_/  |_____]|______
+   *        |      |   |      |______
+   *
+   */
+
+  /**
+  * GET /U/:UserID/T/:ClassName
+  */
   addRoute(app.get(URI.TYPE, (req, res) => {
+    getEntityTypeByClassName(req, res);
+  }));
+
+  function getEntityTypeByClassName (req, res) {
 
     let UserID = req.params.UserID;
-    let EntityClassName = req.params.EntityClassName;
-    let EntityID = req.params.EntityID;
+    let ClassName = req.params.ClassName;
 
-    db.fetchTypeByClassName(UserID, EntityClassName)
+    db.fetchTypeByClassName(UserID, ClassName)
       .then(function (entity) {
         return res.send(JSON.stringify(entity, undefined, '  '));
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
+        handle404(err, res);
       });
 
+  }
+
+  /**
+   * GET /U/:UserID/T/:ClassName/List
+   */
+  addRoute(app.get(URI.ENTITY_LIST, (req, res) => {
+    let UserID = req.params.UserID;
+    let ClassName = req.params.ClassName;
+    fetchItemOrTypeList(UserID, ClassName, 'List', res);
   }));
 
-  addRoute(app.get('/U/:UserID/T/:EntityClassName/List', (req, res) => {
+  /**
+   * POST /U/:UserID/Types
+   */
+  addRoute(app.post(URI.TYPES, (req, res) => {
+    let UserID = req.params.UserID;
+    res.redirect(303, `/U/${UserID}/T/DomainName`);
+  }));
+
+  /**
+   * getEntityTypeList
+   *
+   * <<[ GET ]>>
+   * /U/:UserID/Type/List
+   */
+  addRoute(app.get(URI.TYPE_LIST, (req, res) => {
+    let UserID = req.params.UserID;
+    fetchItemOrTypeList(UserID, TYPE_ENTITY_CLASS_NAME, 'List', res);
+  }));
+
+  /**
+   *     _________   ______________________   __
+   *     |______| \  |   |     |     |     \_/
+   *     |______|  \_|   |   __|__   |      |
+   *
+   */
+
+  /**
+   * getEntityList
+   *
+   * <<[ GET ]>>
+   * /U/:UserID/T/:ClassName/Entity/List
+   */
+  addRoute(app.get(URI.ENTITY_LIST, (req, res) => {
+    getEntityList(req, res);
+  }));
+
+  function getEntityList (req, res) {
 
     let UserID = req.params.UserID;
-    let EntityClassName = req.params.EntityClassName;
+    let ClassName = req.params.ClassName;
+    let EntityID = req.params.EntityID;
 
-    return fetchItemOrTypeList(UserID, EntityClassName, 'List', res);
+    req.params.AttributeKey = EntityID;
 
-  }));
+    fetchItemOrTypeList(UserID, ClassName, EntityID, res);
 
-  addRoute(app.get('/U/:UserID/Type/List', (req, res) => {
+  }
 
-    let UserID = req.params.UserID;
-
-    return fetchItemOrTypeList(UserID, 'Type', 'List', res);
-
-  }));
-
-  // GET /User/:UserID/:EntityClassName/:EntityID
+  /**
+   * getEntityByEntityId
+   *
+   * <<[ GET ]>>
+   * /U/:UserID/T/:ClassName/E/:EntityID
+   */
   addRoute(app.get(URI.ENTITY, (req, res) => {
+    getEntityByEntityId(req, res);
+  }));
+
+  function getEntityByEntityId (req, res) {
 
     let UserID = req.params.UserID;
-    let EntityClassName = req.params.EntityClassName;
+    let ClassName = req.params.ClassName;
     let EntityID = req.params.EntityID;
 
-    // GET /User/:UserID/:EntityClassName/List
-    if (LIST_CLASS_NAME === EntityID) {
-      req.params.AttributeKey = EntityID;
-      return fetchItemOrTypeList(UserID, EntityClassName, EntityID, res);
-    }
-
-    // Non-numerical EntityID
-    if (false === /^[0-9]+$/.test(EntityID)) {
-      let AttributeKey = EntityID;
-      return db.fetchTypeAttribute(UserID, EntityClassName, AttributeKey)
-        .then(function (typeAttribute) {
-          return res.send(JSON.stringify(typeAttribute, undefined, '  '));
-        })
-        .catch(err => {
-          console.log(err.message);
-          console.log(err.stack);
-        });
-    }
-
-    db.fetchEntityById(UserID, EntityClassName, EntityID)
+    db.fetchEntityById(UserID, ClassName, EntityID)
       .then(function (entity) {
         return res.send(JSON.stringify(entity, undefined, '  '));
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
+        handle404(err, res);
       });
 
+  }
+
+  /**
+   *     _________   __ _____ _______    _____________________ ______
+   *        |     \_/  |_____]|______    |_____|   |      |   |_____/
+   *        |      |   |      |______    |     |   |      |   |    \_
+   *
+   */
+
+  /**
+   * getTypeAttributeByAttributeKey
+   *
+   * <<[ GET ]>>
+   * /U/:UserID/T/:ClassName/A/:AttributeKey
+   */
+  addRoute(app.get(URI.TYPE_ATTR, (req, res) => {
+    getTypeAttributeByAttributeKey(req, res);
   }));
 
-  // GET /User/:UserID/:EntityClassName/:AttributeKey
-  addRoute(app.get(URI.TYPE_ATTR, (req, res) => {
+  function getTypeAttributeByAttributeKey (req, res) {
 
     let UserID = req.params.UserID;
-    let EntityClassName = req.params.EntityClassName;
+    let ClassName = req.params.ClassName;
     let AttributeKey = req.params.AttributeKey;
 
-    // GET /User/:UserID/:EntityClassName/List
-    if (LIST_CLASS_NAME === AttributeKey) {
-      return fetchItemOrTypeList(UserID, EntityClassName, AttributeKey, res);
-    }
-
-    db.fetchTypeAttribute(UserID, EntityClassName, AttributeKey)
+    db.fetchTypeAttribute(UserID, ClassName, AttributeKey)
       .then(function (typeAttribute) {
-        return res.send(JSON.stringify(typeAttribute, undefined, '  '));
+        let typeAttrJson = JSON.stringify(typeAttribute, undefined, '  ');
+        res.send(typeAttrJson);
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
+        handle404(err, res);
       });
 
+  }
+
+  /**
+   *     _________   ______________________   __    _____________________ ______
+   *     |______| \  |   |     |     |     \_/      |_____|   |      |   |_____/
+   *     |______|  \_|   |   __|__   |      |       |     |   |      |   |    \_
+   *
+   */
+
+  /**
+   * getEntityAttributeByAttributeKey
+   *
+   * <<[ GET ]>>
+   * /U/:UserID/T/:ClassName/E/:EntityID/A/:AttributeKey
+   */
+  addRoute(app.get(URI.ENTITY_ATTR, (req, res) => {
+    getEntityAttributeByAttributeKey(req, res);
   }));
 
-  // PUT /User/:UserID/:EntityClassName/:EntityID/:AttributeKey
-  addRoute(app.put(URI.ENTITY_ATTR, (req, res) => {
+  function getEntityAttributeByAttributeKey (req, res) {
 
     let UserID = req.params.UserID;
-    let EntityClassName = req.params.EntityClassName;
+    let ClassName = req.params.ClassName;
+    let EntityID = req.params.EntityID;
+    let AttributeKey = req.params.AttributeKey;
+
+    db.fetchEntityAttribute(UserID, ClassName, EntityID, AttributeKey)
+      .then(function (entityAttribute) {
+        let entityAttrJson = JSON.stringify(entityAttribute, undefined, '  ');
+        res.send(entityAttrJson);
+      })
+      .catch(err => {
+        handle404(err, res);
+      });
+  }
+
+  /**
+   * updateEntityAttributeByAttributeKey
+   *
+   * <<[ PUT ]>>
+   * /U/:UserID/T/:ClassName/E/:EntityID/A/:AttributeKey
+   */
+  addRoute(app.put(URI.ENTITY_ATTR, (req, res) => {
+    updateEntityAttributeByAttributeKey(req, res);
+  }));
+
+  function updateEntityAttributeByAttributeKey (req, res) {
+
+    let UserID = req.params.UserID;
+    let ClassName = req.params.ClassName;
     let EntityID = req.params.EntityID;
     let AttributeKey = req.params.AttributeKey;
 
@@ -262,36 +275,26 @@ module.exports = function (app) {
       newValue = newValue + chunk;
     });
 
-    db.fetchEntityAttribute(UserID, EntityClassName, EntityID, AttributeKey)
+    db.fetchEntityAttribute(UserID, ClassName, EntityID, AttributeKey)
       .then(function (entityAttribute) {
-        entityAttribute.set('AttributeValue', newValue);
-        return res.send(JSON.stringify(entityAttribute, undefined, '  '));
+        putEntityAttributeValue(entityAttribute, newValue, res);
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
+        handle404(err, res);
       });
 
-  }));
+  }
 
-  // GET /User/:UserID/:EntityClassName/:EntityID/:AttributeKey
-  addRoute(app.get(URI.ENTITY_ATTR, (req, res) => {
-
-    let UserID = req.params.UserID;
-    let EntityClassName = req.params.EntityClassName;
-    let EntityID = req.params.EntityID;
-    let AttributeKey = req.params.AttributeKey;
-
-    db.fetchEntityAttribute(UserID, EntityClassName, EntityID, AttributeKey)
+  function putEntityAttributeValue (entityAttribute, newValue, res) {
+    db.putEntityAttributeValue(entityAttribute, newValue)
       .then(function (entityAttribute) {
-        return res.send(JSON.stringify(entityAttribute, undefined, '  '));
+        let entityAttrJson = JSON.stringify(entityAttribute, undefined, '  ');
+        res.send(entityAttrJson);
       })
       .catch(err => {
-        console.log(err.message);
-        console.log(err.stack);
+        handle500(err, res);
       });
-
-  }));
+  }
 
   return routes;
 
@@ -301,6 +304,56 @@ module.exports = function (app) {
 
   function apiUri (arr) {
     return '/' + arr.join('/');
+  }
+
+  function handle404 (err, res) {
+    logErr(err);
+    res.sendStatus(404);
+  }
+
+  function handle500 (err, res) {
+    logErr(err);
+    res.sendStatus(500);
+  }
+
+  function logErr (err) {
+    console.log(err.message);
+    console.log(err.stack);
+  }
+
+  function fetchItemOrTypeList (UserID, ClassName, EntityID, res) {
+
+    let isTypeListRequest = TYPE_ENTITY_CLASS_NAME === ClassName;
+    if (isTypeListRequest) {
+      return fetchTypeList(UserID, ClassName, res);
+    }
+
+    return fetchItemList(UserID, ClassName, res);
+
+  }
+
+  function fetchItemList (UserID, ClassName, res) {
+
+    return db.fetchItemList(UserID, ClassName)
+      .then(function (itemList) {
+        return res.send(JSON.stringify(itemList, undefined, '  '));
+      })
+      .catch(err => {
+        handle404(err, res);
+      });
+
+  }
+
+  function fetchTypeList (UserID, ClassName, res) {
+
+    return db.fetchTypeList(UserID)
+      .then(function (typeList) {
+        return res.send(JSON.stringify(typeList, undefined, '  '));
+      })
+      .catch(err => {
+        handle404(err, res);
+      });
+
   }
 
 };

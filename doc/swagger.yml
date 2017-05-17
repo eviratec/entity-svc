@@ -91,7 +91,7 @@ paths:
             ]
           }
         ]
-          ```
+        ```
       responses:
         200:
           description: Returns a list of Entities
@@ -116,116 +116,116 @@ paths:
 
         ```javascript
         [
-            {
-              "ID": 1878799,
-              "UserID": 1,
-              "ParentID": null,
-              "ClassName": "TaxInvoice",
-              "Slug": "tax-invoice",
-              "Label": "Tax Invoice (expense)",
-              "Created": "2017-05-12T21:38:09.000Z",
-              "Modified": "2017-05-12T21:38:09.000Z",
-              "Deleted": null,
-              "Attributes": [
-                {
-                  "TypeID": 1878799,
-                  "AttributeKey": "TotalDue",
-                  "Label": "Total Due",
-                  "Required": 1,
-                  "DefaultValue": "0.00",
-                  "Created": "2017-05-12T21:40:07.000Z",
-                  "Modified": "2017-05-12T22:23:36.000Z",
-                  "Deleted": null
-                },
-                {
-                  "TypeID": 1878799,
-                  "AttributeKey": "DateDue",
-                  "Label": "Date Due",
-                  "Required": 1,
-                  "DefaultValue": "",
-                  "Created": "2017-05-12T22:01:18.000Z",
-                  "Modified": "2017-05-12T22:23:36.000Z",
-                  "Deleted": null
-                },
-                {
-                  "TypeID": 1878799,
-                  "AttributeKey": "DatePaid",
-                  "Label": "Date Paid",
-                  "Required": 0,
-                  "DefaultValue": "",
-                  "Created": "2017-05-12T22:01:18.000Z",
-                  "Modified": "2017-05-12T22:23:36.000Z",
-                  "Deleted": null
-                },
-                {
-                  "TypeID": 1878799,
-                  "AttributeKey": "IssuedBy",
-                  "Label": "Issued By",
-                  "Required": 1,
-                  "DefaultValue": "",
-                  "Created": "2017-05-12T22:01:18.000Z",
-                  "Modified": "2017-05-12T22:23:36.000Z",
-                  "Deleted": null
-                }
-              ]
-            },
-            {
-              "ID": 1878801,
-              "UserID": 1,
-              "ParentID": null,
-              "ClassName": "BankAccount",
-              "Slug": "bank-account",
-              "Label": "Bank Account",
-              "Created": "2017-05-12T21:38:09.000Z",
-              "Modified": "2017-05-12T21:38:09.000Z",
-              "Deleted": null,
-              "Attributes": []
-            },
-            {
-              "ID": 1878802,
-              "UserID": 1,
-              "ParentID": null,
-              "ClassName": "DomainName",
-              "Slug": "domain-name",
-              "Label": "Domain Name",
-              "Created": "2017-05-12T21:38:09.000Z",
-              "Modified": "2017-05-12T21:38:09.000Z",
-              "Deleted": null,
-              "Attributes": [
-                {
-                  "TypeID": 1878802,
-                  "AttributeKey": "TLD",
-                  "Label": "TLD",
-                  "Required": 1,
-                  "DefaultValue": "com",
-                  "Created": "2017-05-12T22:30:01.000Z",
-                  "Modified": "2017-05-12T22:30:01.000Z",
-                  "Deleted": null
-                },
-                {
-                  "TypeID": 1878802,
-                  "AttributeKey": "FQDN",
-                  "Label": "FQDN",
-                  "Required": 1,
-                  "DefaultValue": "example.com",
-                  "Created": "2017-05-12T22:30:01.000Z",
-                  "Modified": "2017-05-12T22:30:01.000Z",
-                  "Deleted": null
-                },
-                {
-                  "TypeID": 1878802,
-                  "AttributeKey": "Registrar",
-                  "Label": "Registrar",
-                  "Required": 1,
-                  "DefaultValue": null,
-                  "Created": "2017-05-12T22:30:01.000Z",
-                  "Modified": "2017-05-12T22:30:01.000Z",
-                  "Deleted": null
-                }
-              ]
-            }
-          ]
-          ```
+          {
+            "ID": 1878799,
+            "UserID": 1,
+            "ParentID": null,
+            "ClassName": "TaxInvoice",
+            "Slug": "tax-invoice",
+            "Label": "Tax Invoice (expense)",
+            "Created": "2017-05-12T21:38:09.000Z",
+            "Modified": "2017-05-12T21:38:09.000Z",
+            "Deleted": null,
+            "Attributes": [
+              {
+                "TypeID": 1878799,
+                "AttributeKey": "TotalDue",
+                "Label": "Total Due",
+                "Required": 1,
+                "DefaultValue": "0.00",
+                "Created": "2017-05-12T21:40:07.000Z",
+                "Modified": "2017-05-12T22:23:36.000Z",
+                "Deleted": null
+              },
+              {
+                "TypeID": 1878799,
+                "AttributeKey": "DateDue",
+                "Label": "Date Due",
+                "Required": 1,
+                "DefaultValue": "",
+                "Created": "2017-05-12T22:01:18.000Z",
+                "Modified": "2017-05-12T22:23:36.000Z",
+                "Deleted": null
+              },
+              {
+                "TypeID": 1878799,
+                "AttributeKey": "DatePaid",
+                "Label": "Date Paid",
+                "Required": 0,
+                "DefaultValue": "",
+                "Created": "2017-05-12T22:01:18.000Z",
+                "Modified": "2017-05-12T22:23:36.000Z",
+                "Deleted": null
+              },
+              {
+                "TypeID": 1878799,
+                "AttributeKey": "IssuedBy",
+                "Label": "Issued By",
+                "Required": 1,
+                "DefaultValue": "",
+                "Created": "2017-05-12T22:01:18.000Z",
+                "Modified": "2017-05-12T22:23:36.000Z",
+                "Deleted": null
+              }
+            ]
+          },
+          {
+            "ID": 1878801,
+            "UserID": 1,
+            "ParentID": null,
+            "ClassName": "BankAccount",
+            "Slug": "bank-account",
+            "Label": "Bank Account",
+            "Created": "2017-05-12T21:38:09.000Z",
+            "Modified": "2017-05-12T21:38:09.000Z",
+            "Deleted": null,
+            "Attributes": []
+          },
+          {
+            "ID": 1878802,
+            "UserID": 1,
+            "ParentID": null,
+            "ClassName": "DomainName",
+            "Slug": "domain-name",
+            "Label": "Domain Name",
+            "Created": "2017-05-12T21:38:09.000Z",
+            "Modified": "2017-05-12T21:38:09.000Z",
+            "Deleted": null,
+            "Attributes": [
+              {
+                "TypeID": 1878802,
+                "AttributeKey": "TLD",
+                "Label": "TLD",
+                "Required": 1,
+                "DefaultValue": "com",
+                "Created": "2017-05-12T22:30:01.000Z",
+                "Modified": "2017-05-12T22:30:01.000Z",
+                "Deleted": null
+              },
+              {
+                "TypeID": 1878802,
+                "AttributeKey": "FQDN",
+                "Label": "FQDN",
+                "Required": 1,
+                "DefaultValue": "example.com",
+                "Created": "2017-05-12T22:30:01.000Z",
+                "Modified": "2017-05-12T22:30:01.000Z",
+                "Deleted": null
+              },
+              {
+                "TypeID": 1878802,
+                "AttributeKey": "Registrar",
+                "Label": "Registrar",
+                "Required": 1,
+                "DefaultValue": null,
+                "Created": "2017-05-12T22:30:01.000Z",
+                "Modified": "2017-05-12T22:30:01.000Z",
+                "Deleted": null
+              }
+            ]
+          }
+        ]
+        ```
       responses:
         200:
           description: Returns a list of Entity Types
